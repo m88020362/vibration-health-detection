@@ -20,19 +20,6 @@ This project demonstrates end-to-end workflow skills, including **data preproces
   Upload a `.txt` file with raw 3-axis vibration signals for automatic analysis.  
   Provides statistical features, visualizations, and model predictions.
 
----
-
-## Project Structure
-vibration/
-│
-├── app.py # Streamlit dashboard (main entry)
-├── ml.py # Machine learning methods
-├── dl.py # Deep learning methods
-├── models/ # Pre-trained models
-├── data/processed/ # Extracted features (used for IForest/OCSVM)
-├── data/test/ # Example test files
-└── requirements.txt # Required dependencies
-
 
 ---
 
@@ -61,7 +48,7 @@ streamlit run app.py
 ...
 The system will automatically compute RMS and Kurtosis, then perform analysis.
 
-Skills Demonstrated
+## Skills Demonstrated
 
 - Feature engineering for time-series vibration data
 
