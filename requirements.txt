@@ -1,0 +1,11 @@
+numpy
+pandas
+scipy
+scikit-learn
+matplotlib
+seaborn
+pywavelets   # 對應 pywt
+shap
+streamlit
+torch
+joblib

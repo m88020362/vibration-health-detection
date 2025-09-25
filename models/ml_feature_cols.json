@@ -1,0 +1,17 @@
+[
+  "RMS",
+  "Skewness",
+  "Kurtosis",
+  "Entropy",
+  "CrestFactor",
+  "Freq_Center",
+  "RMSF",
+  "Spectral_Kurtosis",
+  "Spectral_Entropy",
+  "Wavelet_D3_Kurtosis",
+  "Impulse_Factor",
+  "Margin_Factor",
+  "Approximate_Entropy",
+  "Spectral_Energy",
+  "Clearance_Factor"
+]
