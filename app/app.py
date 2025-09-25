@@ -13,12 +13,12 @@ from sklearn.ensemble import IsolationForest
 from sklearn.svm import OneClassSVM
 from sklearn.preprocessing import StandardScaler
 
-# 把 code/ 放進匯入路徑
+
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "code"))
 import dl  # noqa
 import ml  # noqa
 
-# ====\\ 路徑
+
 MODEL_DIR       = os.path.join(os.path.dirname(__file__), "..", "models")
 DL_MODEL_PATH   = os.path.join(MODEL_DIR, "cnn_model.pth")
 DL_SCALER_PATH  = os.path.join(MODEL_DIR, "scaler.pkl")
@@ -29,11 +29,11 @@ FEATURE_COLS_FP = os.path.join(MODEL_DIR, "ml_feature_cols.json")
 DATA_PROCESSED_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "processed")
 TRAIN_FEATURES_FP  = os.path.join(DATA_PROCESSED_DIR, "train_features.csv")
 
-# 讀訓練時的特徵欄位順序
+#訓練時的特徵欄位順序(重要)
 with open(FEATURE_COLS_FP, "r", encoding="utf-8") as f:
     FEATURE_COLS = json.load(f)
 
-# ==== 介面 ====
+#介面設計
 st.set_page_config(page_title="機械手臂震動健康檢測系統", layout="wide")
 st.title("機械手臂震動健康檢測系統")
 
@@ -54,9 +54,9 @@ def to_light(prob_healthy: float) -> str:
     return "🟢" if prob_healthy >= 0.70 else ("🟡" if prob_healthy >= 0.30 else "🔴")
 
 
-# =========================
+
 # ML：快速檢測
-# =========================
+
 if model_type.startswith("快速檢測"):
     if st.button("開始分析"):
         if not uploaded_files:
@@ -114,9 +114,9 @@ if model_type.startswith("快速檢測"):
         st.pyplot(fig_bar, clear_figure=True)
 
 
-# =========================
+
 # DL：深度分析
-# =========================
+
 elif model_type.startswith("深度分析"):
     if st.button("開始分析"):
         if not uploaded_files:
@@ -169,7 +169,7 @@ elif model_type.startswith("深度分析"):
                 ax.text(i + 3, p, fname, fontsize=8, color="red", ha="left", va="center")
         st.pyplot(fig_line, clear_figure=True)
 
-        # ==== PSD/CSD 熱圖（僅 outlier）====
+        #PSD/CSD 熱圖（僅 outlier
         outlier_idx = [i for i, p in enumerate(preds) if p > threshold]
         if outlier_idx:
             st.subheader("異常樣本 PSD/CSD 熱圖")
@@ -188,9 +188,9 @@ elif model_type.startswith("深度分析"):
                         st.write("⚠️ 此檔案沒有有效的 PSD/CSD")
 
 
-# =========================
+
 # 異常檢測 (IForest / OCSVM)
-# =========================
+
 elif model_type.startswith("異常檢測"):
     st.subheader("異常檢測 (Isolation Forest / One-Class SVM)")
 
@@ -205,7 +205,7 @@ elif model_type.startswith("異常檢測"):
             st.error("❌ 缺少訓練特徵檔 train_features.csv，請先生成 (80 與 260 負荷樣本作為 baseline)")
             st.stop()
 
-        # ==== baseline 訓練集 ====
+        # baseline 訓練集(加速)
         train_df = pd.read_csv(TRAIN_FEATURES_FP)
         X_train = train_df[["RMS", "Kurtosis"]].to_numpy()
 
@@ -230,7 +230,7 @@ elif model_type.startswith("異常檢測"):
 
         X_test = test_df[["RMS", "Kurtosis"]].to_numpy()
 
-        # ==== Isolation Forest ====
+        #Isolation Forest
         scaler_if = StandardScaler().fit(X_train)
         Xn_train_if = scaler_if.transform(X_train)
         Xn_test_if  = scaler_if.transform(X_test)
@@ -238,7 +238,7 @@ elif model_type.startswith("異常檢測"):
         iforest = IsolationForest(n_estimators=200, contamination=cont, random_state=42).fit(Xn_train_if)
         y_pred_if = iforest.predict(Xn_test_if)
 
-        # ==== One-Class SVM ====
+        #One-Class SVM
         scaler_oc = StandardScaler().fit(X_train)
         Xn_train_oc = scaler_oc.transform(X_train)
         Xn_test_oc  = scaler_oc.transform(X_test)
@@ -246,7 +246,7 @@ elif model_type.startswith("異常檢測"):
         ocsvm = OneClassSVM(kernel="rbf", nu=cont, gamma="scale").fit(Xn_train_oc)
         y_pred_oc = ocsvm.predict(Xn_test_oc)
 
-        # ==== Decision Boundary (IForest) ====
+        #Decision Boundary (IForest)
         st.write("### Isolation Forest Decision Boundary")
         xx, yy = np.meshgrid(
             np.linspace(Xn_test_if[:, 0].min()-1, Xn_test_if[:, 0].max()+1, 200),
@@ -263,7 +263,7 @@ elif model_type.startswith("異常檢測"):
         plt.title("Isolation Forest Decision Boundary")
         st.pyplot(fig_if)
 
-        # ==== Decision Boundary (OCSVM) ====
+        #Decision Boundary (OCSVM)
         st.write("### One-Class SVM Decision Boundary")
         xx, yy = np.meshgrid(
             np.linspace(Xn_test_oc[:, 0].min()-1, Xn_test_oc[:, 0].max()+1, 200),
@@ -281,7 +281,7 @@ elif model_type.startswith("異常檢測"):
         plt.title("One-Class SVM Decision Boundary")
         st.pyplot(fig_oc)
 
-        # ==== 同時異常樣本 ====
+        #同時存在的異常樣本
         both_anom = test_df[(y_pred_if == -1) & (y_pred_oc == -1)][["Key", "RMS", "Kurtosis"]]
         st.write("### 同時被判定為異常的樣本")
         csv = both_anom.to_csv(index=False).encode("utf-8-sig")
