@@ -5,6 +5,14 @@ This project demonstrates end-to-end workflow skills, including **data preproces
 
 ---
 
+## Live Demo
+👉 [Try the app here](https://vibration-health-detection-zsyzifbqhs7bkkuv78osvn.streamlit.app/)
+### Sample Data
+To quickly test the app, you can use the files provided in the [`data/test`](data/test) folder of this repository.  
+Simply upload one of these `.txt` files to the demo, and the system will automatically run the analysis.
+
+---
+
 ## Features
 
 - **Quick Detection (Random Forest Classifier)**  
