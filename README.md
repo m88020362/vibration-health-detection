@@ -11,9 +11,11 @@ This project demonstrates end-to-end workflow skills, including **data preproces
 To quickly test the app, you can use the files provided in the [`data/test`](data/test) folder of this repository.  
 Simply upload one of these `.txt` files to the demo, and the system will automatically run the analysis.
 
-⚠️ **注意**  
-由於使用 Streamlit Cloud 免費方案，專案若一段時間未使用會自動進入休眠。  
-若點開後顯示「Zzzz」或白屏，請點擊 **"Yes, get this app back up!"** 按鈕，系統會自動喚醒並重新啟動（需等待約 30 秒）。 
+⚠️ Note  
+If the app has been inactive for a while, it may automatically go into sleep mode.  
+If you see a "Zzzz" message or a blank screen, please click the **"Yes, get this app back up!"** button.  
+The system will wake up and restart automatically (this may take around 30 seconds).
+
 ---
 
 ## Features
