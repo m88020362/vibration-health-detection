@@ -36,7 +36,7 @@ The system will wake up and restart automatically (this may take around 30 secon
 
 ---
 
-## Installation & Run
+## Installation & Local Run
 
 ### 1. Clone the repository
 ```{bash}
@@ -53,6 +53,22 @@ pip install -r requirements.txt
 ```{bash}
 streamlit run app.py
 ```
+
+## Run with Docker
+This project can be fully containerized using Docker.
+
+### 1. Build the Docker image
+```{bash}
+docker build -t vibration-app .
+```
+
+### 2. Run the container
+```{bash}
+docker run -p 8501:8501 vibration-app
+```
+### 3. Open in browser
+After the container starts, visit:
+http://localhost:8501
 
 ## Example Input Format
 "X"       "Y"       "Z"
